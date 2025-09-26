@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hello SaaS Indonesia 🚀
+
+A clean, modern SaaS starter built with Next.js 14, TypeScript, Tailwind CSS, and Supabase authentication.
+
+## Features
+
+- ⚡ **Next.js 14** with App Router
+- 🔷 **TypeScript** for type safety
+- 🎨 **Tailwind CSS** for styling
+- 📱 **Responsive design** for all devices
+- 🧭 **Navigation** with shared Navbar component
+- 🔐 **Supabase Authentication** with email/password
+- 🛡️ **Protected routes** with session management
+- 🔄 **Password reset** functionality
+
+## Project Structure
+
+```
+app/
+├── (components)/
+│   └── Navbar.tsx          # Shared navigation component
+├── dashboard/
+│   └── page.tsx            # Protected dashboard page
+├── login/
+│   └── page.tsx            # Login page with Supabase auth
+├── reset-password/
+│   └── page.tsx            # Password reset page
+├── signup/
+│   └── page.tsx            # Signup page with Supabase auth
+├── globals.css             # Global styles and Tailwind
+├── layout.tsx              # Root layout with Navbar
+└── page.tsx                # Landing page with hero section
+lib/
+└── supabase.ts             # Supabase client configuration
+```
+
+## Pages
+
+- **/** - Landing page with hero section and call-to-action buttons
+- **/signup** - User registration with email/password
+- **/login** - User authentication with password reset
+- **/reset-password** - Password reset form (accessed via email link)
+- **/dashboard** - Protected dashboard with user info and logout
 
 ## Getting Started
 
-First, run the development server:
-
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Set up Supabase:
+   - Create a new project at [supabase.com](https://supabase.com)
+   - Go to Settings > API to get your project URL and anon key
+   - Go to Authentication > URL Configuration and set:
+     - Site URL: `http://localhost:3000` (for development)
+     - Redirect URLs: `http://localhost:3000/reset-password`
+   - Create a `.env.local` file in the root directory:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## Learn More
+## Testing Password Reset Flow
 
-To learn more about Next.js, take a look at the following resources:
+1. **Go to Login Page** - Visit `/login`
+2. **Click "Lupa password?"** - Enter your email and click the link
+3. **Check Email** - Look for the password reset email in your inbox
+4. **Click Reset Link** - This will redirect to `/reset-password`
+5. **Enter New Password** - Fill in the new password form
+6. **Success** - You'll be redirected to `/login` with updated password
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Authentication Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- ✅ **User Registration** - Email/password signup with Supabase
+- ✅ **User Login** - Email/password authentication
+- ✅ **Password Reset** - Complete email-based password recovery flow
+- ✅ **Password Update** - Secure password change via email link
+- ✅ **Protected Routes** - Dashboard requires authentication
+- ✅ **Session Management** - Automatic session checking and redirects
+- ✅ **User Info Display** - Shows logged-in user's email
+- ✅ **Logout Functionality** - Working logout with session cleanup
 
-## Deploy on Vercel
+## Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework**: Next.js 14 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Authentication**: Supabase Auth
+- **Database**: Supabase (PostgreSQL)
+- **Fonts**: Geist Sans & Geist Mono
+- **Icons**: Heroicons (via SVG)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Next Steps
+
+This starter provides a solid foundation for building a SaaS application. Consider adding:
+
+- Database tables and RLS policies in Supabase
+- API routes for backend functionality
+- State management (Zustand, Redux Toolkit)
+- Form validation (React Hook Form + Zod)
+- Real-time features (Supabase Realtime)
+- Email templates customization
+- User profile management
+- Role-based access control
