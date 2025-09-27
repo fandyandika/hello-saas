@@ -17,6 +17,26 @@ export default function Signup() {
   const [loggedInRedirect, setLoggedInRedirect] = useState(false);
   const router = useRouter();
 
+  // Check if email was recently used for signup
+  const checkRecentSignup = (email: string) => {
+    const recentSignups = JSON.parse(localStorage.getItem('recentSignups') || '[]');
+    const now = Date.now();
+    const oneHourAgo = now - (60 * 60 * 1000);
+    
+    // Clean old entries
+    const validSignups = recentSignups.filter((item: { email: string; timestamp: number }) => item.timestamp > oneHourAgo);
+    localStorage.setItem('recentSignups', JSON.stringify(validSignups));
+    
+    return validSignups.some((item: { email: string; timestamp: number }) => item.email === email);
+  };
+
+  // Add email to recent signups
+  const addRecentSignup = (email: string) => {
+    const recentSignups = JSON.parse(localStorage.getItem('recentSignups') || '[]');
+    recentSignups.push({ email, timestamp: Date.now() });
+    localStorage.setItem('recentSignups', JSON.stringify(recentSignups));
+  };
+
   useEffect(() => {
     const checkSessionAndRedirect = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -63,29 +83,20 @@ export default function Signup() {
     }
 
     try {
-      // First, try to sign in to check if user already exists
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password: 'dummy_check_password_12345'
-      });
-
-      // If sign in doesn't return "Invalid login credentials", user might exist
-      if (signInData?.user || (signInError && !signInError.message.includes('Invalid login credentials'))) {
-        setError('Email ini sudah terdaftar! Silakan login untuk masuk ke dashboard.');
+      // Check if this email was recently used for signup
+      if (checkRecentSignup(email)) {
+        setError('Email ini baru saja digunakan untuk pendaftaran. Silakan cek email Anda atau tunggu sebentar.');
         setLoading(false);
         return;
       }
 
-      // If we get "Invalid login credentials", user doesn't exist, proceed with signup
+      // Try to sign up directly
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
       });
 
-      console.log('Signup response:', { data, error }); // Debug logging
-
       if (error) {
-        console.log('Signup error message:', error.message); // Debug logging
         // Handle specific error cases
         if (error.message.includes('already registered') || 
             error.message.includes('User already registered') ||
@@ -107,8 +118,11 @@ export default function Signup() {
       } else {
         // Check if user was actually created
         if (data?.user) {
+          // Add to recent signups to prevent immediate duplicate attempts
+          addRecentSignup(email);
           setMessage('Berhasil! Silakan cek email Anda untuk link konfirmasi.');
         } else {
+          // No user returned, likely a duplicate
           setError('Email ini sudah terdaftar! Silakan login untuk masuk ke dashboard.');
         }
       }
