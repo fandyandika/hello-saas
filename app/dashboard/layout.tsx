@@ -97,46 +97,50 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* Main Content */}
           <main className="min-h-screen bg-gradient-to-br from-[#fefefe] to-[#e8e8e8]">
             {/* Dashboard Header */}
-            <div className="bg-gradient-to-r from-[#fefefe] to-[#f8f9fa] shadow-sm border-b border-[#e8e8e8]">
-              <div className="px-6 py-8">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <h1 className="text-4xl font-bold text-[#1b1d21] mb-2">Dashboard</h1>
-                    <p className="text-lg text-[#a5a2a6]">
-                      Welcome back! Here&apos;s what&apos;s happening with your account.
-                    </p>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    {/* Quick Stats */}
-                    <div className="hidden sm:flex items-center space-x-6 text-sm">
-                      <div className="flex items-center bg-green-50 px-3 py-2 rounded-full border border-green-200">
-                        <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
-                        <span className="text-green-700 font-medium">Online</span>
-                      </div>
-                      <div className="flex items-center bg-blue-50 px-3 py-2 rounded-full border border-blue-200">
-                        <svg className="w-4 h-4 mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span className="text-blue-700 font-medium">Last active: Now</span>
-                      </div>
+            <div className="bg-gradient-to-r from-[#fefefe] via-[#f8f9fa] to-[#fefefe] shadow-lg border-b border-[#e8e8e8]">
+              <div className="px-8 py-12">
+                <div className="max-w-7xl mx-auto">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h1 className="text-5xl font-bold text-[#1b1d21] mb-3 bg-gradient-to-r from-[#1b1d21] to-[#672afa] bg-clip-text text-transparent">
+                        Dashboard
+                      </h1>
+                      <p className="text-xl text-[#a5a2a6] max-w-2xl">
+                        Welcome back! Here&apos;s what&apos;s happening with your account.
+                      </p>
                     </div>
-                    
-                    {/* Mobile Menu Button */}
-                    <button
-                      onClick={() => setSidebarOpen(!sidebarOpen)}
-                      className="lg:hidden p-2 rounded-lg text-[#a5a2a6] hover:text-[#1b1d21] hover:bg-[#e8e8e8] transition-colors duration-200"
-                    >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                      </svg>
-                    </button>
+                    <div className="flex items-center space-x-6">
+                      {/* Quick Stats */}
+                      <div className="hidden sm:flex items-center space-x-4">
+                        <div className="flex items-center bg-gradient-to-r from-green-50 to-green-100 px-4 py-3 rounded-full border border-green-200 shadow-sm">
+                          <div className="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse"></div>
+                          <span className="text-green-700 font-semibold text-sm">Online</span>
+                        </div>
+                        <div className="flex items-center bg-gradient-to-r from-blue-50 to-blue-100 px-4 py-3 rounded-full border border-blue-200 shadow-sm">
+                          <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span className="text-blue-700 font-semibold text-sm">Last active: Now</span>
+                        </div>
+                      </div>
+                      
+                      {/* Mobile Menu Button */}
+                      <button
+                        onClick={() => setSidebarOpen(!sidebarOpen)}
+                        className="lg:hidden p-3 rounded-xl text-[#a5a2a6] hover:text-[#1b1d21] hover:bg-[#e8e8e8] transition-all duration-200 shadow-sm hover:shadow-md"
+                      >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             
             {/* Dashboard Content */}
-            <div className="px-6 py-8">
+            <div className="px-8 py-12">
               <div className="max-w-7xl mx-auto">
                 {children}
               </div>

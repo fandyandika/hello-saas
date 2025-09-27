@@ -20,11 +20,6 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
             <Link 
               href="/" 
               className="flex items-center space-x-3 hover:opacity-80 transition-opacity cursor-pointer"
-              onClick={(e) => {
-                // Ensure navigation works properly
-                e.preventDefault();
-                window.location.href = '/';
-              }}
             >
               <div className="h-8 w-8 bg-[#672afa] rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">H</span>
@@ -45,9 +40,9 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
               </span>
             </div>
             
-            {/* Dashboard Button */}
+            {/* Home Button */}
             <Link
-              href="/dashboard"
+              href="/"
               className="inline-flex items-center px-4 py-2 border border-[#e8e8e8] text-sm font-medium rounded-lg text-[#1b1d21] bg-[#fefefe] hover:bg-[#e8e8e8] hover:border-[#672afa] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#672afa] transition-all duration-200 shadow-sm hover:shadow-md"
             >
               <svg
@@ -60,37 +55,10 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                 />
               </svg>
-              Dashboard
-            </Link>
-            
-            {/* Sign Up Button */}
-            <Link
-              href="/signup"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-[#672afa] to-[#5a22df] hover:from-[#5a22df] hover:to-[#4a1cc7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#672afa] transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-            >
-              <svg
-                className="w-4 h-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-                />
-              </svg>
-              Sign Up
+              Home
             </Link>
             
             {/* Logout Button */}
