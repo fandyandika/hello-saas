@@ -97,27 +97,27 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* Main Content */}
           <main className="min-h-screen bg-gradient-to-br from-[#fefefe] to-[#e8e8e8]">
             {/* Dashboard Header */}
-            <div className="bg-[#fefefe] shadow-sm">
-              <div className="px-6 py-6">
+            <div className="bg-gradient-to-r from-[#fefefe] to-[#f8f9fa] shadow-sm border-b border-[#e8e8e8]">
+              <div className="px-6 py-8">
                 <div className="flex items-center justify-between">
-                  <div className="ml-0">
-                    <h1 className="text-3xl font-bold text-[#1b1d21]">Dashboard</h1>
-                    <p className="text-sm text-[#a5a2a6] mt-2">
+                  <div className="flex-1">
+                    <h1 className="text-4xl font-bold text-[#1b1d21] mb-2">Dashboard</h1>
+                    <p className="text-lg text-[#a5a2a6]">
                       Welcome back! Here&apos;s what&apos;s happening with your account.
                     </p>
                   </div>
                   <div className="flex items-center space-x-4">
                     {/* Quick Stats */}
-                    <div className="hidden sm:flex items-center space-x-6 text-sm text-[#a5a2a6]">
-                      <div className="flex items-center">
-                        <div className="w-2 h-2 bg-[#f0a026] rounded-full mr-2"></div>
-                        <span>Online</span>
+                    <div className="hidden sm:flex items-center space-x-6 text-sm">
+                      <div className="flex items-center bg-green-50 px-3 py-2 rounded-full border border-green-200">
+                        <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                        <span className="text-green-700 font-medium">Online</span>
                       </div>
-                      <div className="flex items-center">
-                        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="flex items-center bg-blue-50 px-3 py-2 rounded-full border border-blue-200">
+                        <svg className="w-4 h-4 mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>Last active: Now</span>
+                        <span className="text-blue-700 font-medium">Last active: Now</span>
                       </div>
                     </div>
                     
@@ -136,8 +136,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
             
             {/* Dashboard Content */}
-            <div className="p-6">
-              {children}
+            <div className="px-6 py-8">
+              <div className="max-w-7xl mx-auto">
+                {children}
+              </div>
             </div>
           </main>
         </div>
