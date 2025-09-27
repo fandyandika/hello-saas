@@ -1,0 +1,87 @@
+---
+description: Authentication patterns for Supabase Auth (this project)
+globs:
+  - "app/login/**/*.{ts,tsx}"
+  - "app/signup/**/*.{ts,tsx}"
+  - "app/reset-password/**/*.{ts,tsx}"
+  - "app/(private)/**/*.{ts,tsx}"
+alwaysApply: true
+---
+# Authentication Patterns
+- Gunakan Supabase Auth (email/password). Jangan expose **service role** ke client; hanya `NEXT_PUBLIC_*` di client.
+- Protected area di `app/(private)/...` → redirect ke `/login` jika tidak ada session.
+- Reset password: gunakan `updateUser({ password })` setelah verifikasi via email link.
+
+## Supabase Auth Implementation
+
+### Client Component Requirements
+All auth-related pages must be client components:
+```typescript
+'use client';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
+```
+
+### Common Auth Patterns
+
+#### Session Checking
+```typescript
+useEffect(() => {
+  const checkSession = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      router.push('/login');
+    }
+  };
+  checkSession();
+}, [router]);
+```
+
+#### Auth State Listening
+```typescript
+useEffect(() => {
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    (event, session) => {
+      if (event === 'SIGNED_OUT' || !session) {
+        router.push('/login');
+      }
+    }
+  );
+  return () => subscription.unsubscribe();
+}, [router]);
+```
+
+### Form Handling Patterns
+
+#### Signup Form
+- Use `supabase.auth.signUp({ email, password })`
+- Show success message for email confirmation
+- Handle email confirmation flow
+
+#### Login Form
+- Use `supabase.auth.signInWithPassword({ email, password })`
+- Redirect to dashboard on success
+- Implement password reset with `resetPasswordForEmail()`
+
+#### Password Reset
+- Use `supabase.auth.updateUser({ password })`
+- Validate password confirmation
+- Show success message and redirect
+
+### Error Handling
+- Always check for Supabase errors
+- Display user-friendly error messages
+- Use consistent error UI components
+- Handle network errors gracefully
+
+### Loading States
+- Show loading indicators during async operations
+- Disable form inputs during submission
+- Use consistent loading UI patterns
+
+### Redirect Patterns
+- Use `useRouter` from `next/navigation`
+- Redirect to `/login` for unauthenticated users
+- Redirect to `/dashboard` after successful login
+- Use `router.push()` for programmatic navigation

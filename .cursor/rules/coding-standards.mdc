@@ -1,0 +1,57 @@
+---
+description: Coding standards & best practices for TypeScript React in this repo
+globs:
+  - "**/*.{ts,tsx}"
+alwaysApply: true
+---
+# Coding Standards
+
+## TypeScript & React Best Practices
+
+### Component Structure
+- Use `'use client'` directive for client components that use hooks or browser APIs
+- Always define proper TypeScript types for props and state
+- Use functional components with hooks, not class components
+
+### File Organization
+- One component per file
+- Use descriptive file names (kebab-case for directories, PascalCase for components)
+- Place shared components in `app/(components)/` directory
+
+### Import Order
+```typescript
+// 1. React imports
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+
+// 2. Third-party imports
+import { supabase } from '@/lib/supabase';
+
+// 3. Local imports
+import Navbar from './(components)/Navbar';
+```
+
+### Error Handling
+- Always wrap async operations in try-catch blocks
+- Provide user-friendly error messages
+- Use loading states for async operations
+- Handle Supabase errors gracefully
+
+### Supabase Integration
+- Always check for errors in Supabase responses
+- Use proper TypeScript types from `@supabase/supabase-js`
+- Handle authentication state changes with `onAuthStateChange`
+- Validate sessions before protected operations
+
+### Styling Guidelines
+- Use Tailwind CSS classes consistently
+- Follow mobile-first responsive design
+- Use semantic color classes (blue-600, red-600, green-600)
+- Maintain consistent spacing and typography
+- Use proper focus states for accessibility
+
+### Form Handling
+- Use controlled components with useState
+- Validate inputs on both client and server side
+- Provide clear error and success messages
+- Disable submit buttons during loading states

@@ -1,0 +1,143 @@
+---
+description: Git workflow & rollback best practices
+globs: []
+alwaysApply: false
+---
+# Git Workflow Guidelines
+
+## Commit Standards
+
+### Commit Message Format
+```
+type: brief description
+
+Detailed description if needed
+- Bullet point for specific changes
+- Another bullet point
+```
+
+### Commit Types
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `style:` - Code formatting, no logic changes
+- `refactor:` - Code refactoring
+- `test:` - Adding or updating tests
+- `chore:` - Maintenance tasks
+
+### Examples
+```
+feat: add password reset functionality
+fix: resolve authentication redirect issue
+docs: update README with deployment instructions
+style: improve button hover states
+refactor: extract auth logic to custom hook
+```
+
+## Branch Strategy
+
+### Main Branches
+- `main` - Production-ready code
+- `develop` - Integration branch for features
+
+### Feature Branches
+- `feature/feature-name` - New features
+- `fix/bug-description` - Bug fixes
+- `hotfix/urgent-fix` - Critical production fixes
+
+### Branch Naming
+- Use kebab-case: `feature/user-profile`
+- Be descriptive: `fix/login-redirect-loop`
+- Keep it short but clear
+
+## Git Operations
+
+### Before Committing
+1. Check status: `git status`
+2. Review changes: `git diff`
+3. Stage specific files: `git add filename`
+4. Stage all changes: `git add .`
+5. Commit with message: `git commit -m "message"`
+
+### Pushing Changes
+```bash
+# First time push
+git push -u origin main
+
+# Subsequent pushes
+git push origin main
+
+# Push specific branch
+git push origin feature-branch-name
+```
+
+### Rollback Operations
+```bash
+# Undo last commit (keep changes)
+git reset --soft HEAD~1
+
+# Undo last commit (discard changes)
+git reset --hard HEAD~1
+
+# Undo to specific commit
+git reset --hard <commit-hash>
+
+# Revert specific commit
+git revert <commit-hash>
+```
+
+## Cursor Git Integration
+
+### Using Git Panel
+- Access: `Ctrl+Shift+G` or click Source Control icon
+- Stage changes: Click `+` next to files
+- Commit: Write message and click `✓`
+- Push: Click `...` → "Push"
+
+### Using Command Palette
+- Access: `Ctrl+Shift+P`
+- Common commands:
+  - `Git: Commit`
+  - `Git: Push`
+  - `Git: Pull`
+  - `Git: Checkout to...`
+  - `Git: Create Branch`
+
+### Git Graph Extension
+- Install: "Git Graph" extension
+- Access: `Ctrl+Shift+P` → "Git Graph: View Git Graph"
+- Visual commit history
+- Easy rollback operations
+
+## Best Practices
+
+### Before Starting Work
+1. Pull latest changes: `git pull origin main`
+2. Create feature branch: `git checkout -b feature/new-feature`
+3. Work on feature
+4. Commit frequently with descriptive messages
+
+### Before Pushing
+1. Test your changes
+2. Review staged files
+3. Write clear commit message
+4. Push to remote
+
+### Conflict Resolution
+1. Pull latest changes: `git pull origin main`
+2. Resolve conflicts in editor
+3. Stage resolved files: `git add filename`
+4. Complete merge: `git commit`
+5. Push changes: `git push origin main`
+
+### Emergency Rollback
+```bash
+# Quick rollback to last working state
+git reset --hard origin/main
+
+# Rollback specific file
+git checkout HEAD -- filename
+
+# Create backup before major changes
+git checkout -b backup-before-changes
+```

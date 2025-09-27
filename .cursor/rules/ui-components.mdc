@@ -1,0 +1,121 @@
+---
+description: UI component patterns & Tailwind CSS guidelines
+globs:
+  - "app/(components)/**/*.{ts,tsx}"
+  - "app/**/*.{ts,tsx}"
+alwaysApply: true
+---
+
+# UI Component Guidelines
+
+## Component Architecture
+
+### Shared Components
+- Place in `app/(components)/` directory
+- Use PascalCase for component names
+- Export as default export
+- Include proper TypeScript types
+
+### Component Structure
+```typescript
+// Component comment explaining purpose
+'use client'; // Only if needed
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+interface ComponentProps {
+  // Define props interface
+}
+
+export default function ComponentName({ prop1, prop2 }: ComponentProps) {
+  // Component logic
+  return (
+    // JSX
+  );
+}
+```
+
+## Tailwind CSS Patterns
+
+### Color Scheme
+- **Primary**: `blue-600`, `blue-700` (buttons, links)
+- **Success**: `green-600`, `green-50` (success messages)
+- **Error**: `red-600`, `red-50` (error messages)
+- **Neutral**: `gray-600`, `gray-900` (text)
+- **Background**: `gray-50`, `white` (backgrounds)
+
+### Button Patterns
+```typescript
+// Primary button
+className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+
+// Secondary button
+className="bg-white hover:bg-gray-50 text-blue-600 font-semibold py-3 px-8 rounded-lg border-2 border-blue-600 transition-colors duration-200 shadow-lg hover:shadow-xl"
+
+// Disabled button
+className="bg-gray-400 cursor-not-allowed opacity-50"
+```
+
+### Form Patterns
+```typescript
+// Input field
+className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+
+// Label
+className="block text-sm font-medium text-gray-700"
+
+// Error message container
+className="rounded-md bg-red-50 p-4"
+```
+
+### Layout Patterns
+```typescript
+// Page container
+className="min-h-screen bg-gray-50"
+
+// Content container
+className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"
+
+// Card container
+className="bg-white shadow rounded-lg p-6"
+
+// Centered content
+className="flex flex-col justify-center items-center"
+```
+
+### Responsive Design
+- Use mobile-first approach
+- Breakpoints: `sm:`, `md:`, `lg:`, `xl:`
+- Common patterns: `sm:flex-row`, `md:grid-cols-3`, `lg:px-8`
+
+### Accessibility
+- Use semantic HTML elements
+- Include proper ARIA labels
+- Ensure keyboard navigation
+- Use proper focus states
+- Maintain color contrast ratios
+
+### Loading States
+```typescript
+// Loading spinner
+className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"
+
+// Loading text
+className="mt-4 text-gray-600"
+```
+
+### Error/Success Messages
+```typescript
+// Error message
+<div className="rounded-md bg-red-50 p-4">
+  <div className="flex">
+    <div className="flex-shrink-0">
+      <svg className="h-5 w-5 text-red-400">...</svg>
+    </div>
+    <div className="ml-3">
+      <h3 className="text-sm font-medium text-red-800">{error}</h3>
+    </div>
+  </div>
+</div>
+```

@@ -1,0 +1,170 @@
+---
+description: Deployment guidelines for Vercel & environment configuration
+globs: []
+alwaysApply: false
+---
+# Deployment Guidelines
+
+## Vercel Deployment
+
+### Prerequisites
+1. GitHub repository with code
+2. Vercel account (linked to GitHub)
+3. Supabase project configured
+4. Environment variables ready
+
+### Deployment Steps
+
+#### Method 1: Vercel Dashboard
+1. Go to [vercel.com](https://vercel.com)
+2. Click "New Project"
+3. Import GitHub repository
+4. Vercel auto-detects Next.js
+5. Click "Deploy"
+
+#### Method 2: Vercel CLI
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Login to Vercel
+vercel login
+
+# Deploy
+vercel
+
+# Follow prompts:
+# - Set up and deploy? Y
+# - Which scope? (select your account)
+# - Link to existing project? N
+# - Project name: hello-saas
+# - Directory: ./
+# - Override settings? N
+```
+
+### Environment Variables
+
+#### Required Variables
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+#### Setting in Vercel
+1. Go to project dashboard
+2. Click "Settings" tab
+3. Click "Environment Variables"
+4. Add each variable:
+   - Name: `NEXT_PUBLIC_SUPABASE_URL`
+   - Value: Your Supabase URL
+   - Environment: Production, Preview, Development
+5. Click "Save"
+
+### Supabase Configuration
+
+#### URL Configuration
+1. Go to Supabase Dashboard
+2. Navigate to Authentication > URL Configuration
+3. Set:
+   - **Site URL**: `https://your-app-name.vercel.app`
+   - **Redirect URLs**: `https://your-app-name.vercel.app/reset-password`
+
+#### Email Templates (Optional)
+1. Go to Authentication > Email Templates
+2. Customize templates for:
+   - Confirm signup
+   - Reset password
+   - Magic link
+
+### Post-Deployment
+
+#### Testing Checklist
+- [ ] Landing page loads correctly
+- [ ] Signup flow works
+- [ ] Login flow works
+- [ ] Password reset works
+- [ ] Dashboard is protected
+- [ ] Logout works
+- [ ] Responsive design works
+
+#### Common Issues
+1. **Build fails**: Check environment variables
+2. **Auth not working**: Verify Supabase URL configuration
+3. **Redirects fail**: Check redirect URLs in Supabase
+4. **Styling issues**: Verify Tailwind CSS build
+
+### Domain Configuration
+
+#### Custom Domain (Optional)
+1. Go to Vercel project settings
+2. Click "Domains"
+3. Add your custom domain
+4. Update Supabase Site URL to match
+
+#### SSL Certificate
+- Vercel provides automatic SSL
+- No additional configuration needed
+
+### Monitoring
+
+#### Vercel Analytics
+- Built-in performance monitoring
+- Access via Vercel dashboard
+- Real-time metrics
+
+#### Error Tracking
+- Check Vercel function logs
+- Monitor Supabase logs
+- Use browser dev tools
+
+### Updates and Redeployment
+
+#### Automatic Deployment
+- Pushes to main branch auto-deploy
+- Preview deployments for PRs
+- No manual intervention needed
+
+#### Manual Redeploy
+1. Go to Vercel dashboard
+2. Click "Deployments"
+3. Click "..." on latest deployment
+4. Click "Redeploy"
+
+### Rollback Strategy
+
+#### Quick Rollback
+1. Go to Vercel dashboard
+2. Click "Deployments"
+3. Find working deployment
+4. Click "..." → "Promote to Production"
+
+#### Code Rollback
+```bash
+# Revert to previous commit
+git revert <commit-hash>
+git push origin main
+```
+
+### Performance Optimization
+
+#### Next.js Optimizations
+- Image optimization with `next/image`
+- Automatic code splitting
+- Static generation where possible
+
+#### Vercel Optimizations
+- Edge functions for API routes
+- Global CDN distribution
+- Automatic compression
+
+### Security Considerations
+
+#### Environment Variables
+- Never commit `.env.local` to Git
+- Use Vercel environment variables
+- Rotate keys regularly
+
+#### Supabase Security
+- Enable Row Level Security (RLS)
+- Configure proper policies
+- Monitor auth logs

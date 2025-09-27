@@ -1,0 +1,51 @@
+---
+description: Project structure & architecture for Next.js 14 + Supabase SaaS
+globs:
+  - "app/**/*.{ts,tsx}"
+  - "lib/**/*.{ts,tsx}"
+alwaysApply: true
+---
+
+# Project Structure Guide
+
+This is a Next.js 14 SaaS application with Supabase authentication built with TypeScript and Tailwind CSS.
+
+## Core Architecture
+
+- **Framework**: Next.js 14 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Authentication**: Supabase Auth
+- **Database**: Supabase (PostgreSQL)
+
+## Key Files
+
+- **Main Layout**: [app/layout.tsx](mdc:app/layout.tsx) - Root layout with Navbar
+- **Landing Page**: [app/page.tsx](mdc:app/page.tsx) - Hero section with CTAs
+- **Supabase Config**: [lib/supabase.ts](mdc:lib/supabase.ts) - Supabase client configuration
+- **Global Styles**: [app/globals.css](mdc:app/globals.css) - Tailwind and custom styles
+
+## App Router Structure
+
+```
+app/
+├── (components)/          # Shared components
+│   └── Navbar.tsx        # Navigation component
+├── dashboard/            # Protected dashboard
+├── login/               # Authentication pages
+├── reset-password/      # Password reset flow
+├── signup/              # User registration
+└── globals.css          # Global styles
+```
+
+## Authentication Flow
+
+1. **Signup**: [app/signup/page.tsx](mdc:app/signup/page.tsx) - User registration
+2. **Login**: [app/login/page.tsx](mdc:app/login/page.tsx) - User authentication with password reset
+3. **Reset Password**: [app/reset-password/page.tsx](mdc:app/reset-password/page.tsx) - Password update via email link
+4. **Dashboard**: [app/dashboard/page.tsx](mdc:app/dashboard/page.tsx) - Protected area with user info
+
+## Environment Variables Required
+
+- `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key
