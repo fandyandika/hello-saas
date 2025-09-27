@@ -1,5 +1,5 @@
 ---
-description: Project structure & architecture for Next.js 14 + Supabase SaaS
+description: Project structure & architecture for Next.js 15 + Supabase SaaS
 globs:
   - "app/**/*.{ts,tsx}"
   - "lib/**/*.{ts,tsx}"
@@ -8,11 +8,11 @@ alwaysApply: true
 
 # Project Structure Guide
 
-This is a Next.js 14 SaaS application with Supabase authentication built with TypeScript and Tailwind CSS.
+This is a Next.js 15 SaaS application with Supabase authentication built with TypeScript and Tailwind CSS.
 
 ## Core Architecture
 
-- **Framework**: Next.js 14 with App Router
+- **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Authentication**: Supabase Auth
