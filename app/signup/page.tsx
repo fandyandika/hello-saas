@@ -47,6 +47,21 @@ export default function Signup() {
     setError('');
     setMessage('');
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address');
+      setLoading(false);
+      return;
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      setLoading(false);
+      return;
+    }
+
     try {
       const { error } = await supabase.auth.signUp({
         email,
@@ -54,11 +69,18 @@ export default function Signup() {
       });
 
       if (error) {
-        setError(error.message);
+        // Handle specific error cases
+        if (error.message.includes('already registered') || error.message.includes('User already registered')) {
+          setError('This email is already registered. Please try logging in instead.');
+        } else if (error.message.includes('Invalid email')) {
+          setError('Please enter a valid email address');
+        } else {
+          setError(error.message);
+        }
       } else {
         setMessage('Check your email for the confirmation link!');
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
@@ -148,6 +170,16 @@ export default function Signup() {
                     <h3 className="text-sm font-medium text-red-800">
                       {error}
                     </h3>
+                    {error.includes('already registered') && (
+                      <div className="mt-2">
+                        <Link
+                          href="/login"
+                          className="text-sm text-[#672afa] hover:text-[#5a22df] underline"
+                        >
+                          Click here to login instead
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

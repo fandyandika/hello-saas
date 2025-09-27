@@ -57,7 +57,7 @@ export default function Login() {
       } else {
         router.push('/dashboard');
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
@@ -81,7 +81,7 @@ export default function Login() {
         setResetMessage('Password reset email sent! Check your inbox.');
         setError('');
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred');
     }
   };
