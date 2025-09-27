@@ -103,7 +103,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <div className="ml-0">
                     <h1 className="text-3xl font-bold text-[#1b1d21]">Dashboard</h1>
                     <p className="text-sm text-[#a5a2a6] mt-2">
-                      Welcome back! Here's what's happening with your account.
+                      Welcome back! Here&apos;s what&apos;s happening with your account.
                     </p>
                   </div>
                   <div className="flex items-center space-x-4">

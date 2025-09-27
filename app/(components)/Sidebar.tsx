@@ -4,7 +4,7 @@
 
 'use client';
 
-import { useState } from 'react';
+// No useState needed - props are passed from parent
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 

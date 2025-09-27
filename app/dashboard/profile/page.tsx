@@ -38,7 +38,7 @@ export default function Profile() {
       // Simulate save operation
       await new Promise(resolve => setTimeout(resolve, 1000));
       setMessage('Profile updated successfully!');
-    } catch (error) {
+    } catch {
       setMessage('Error updating profile');
     } finally {
       setSaving(false);
