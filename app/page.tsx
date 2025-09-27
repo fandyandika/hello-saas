@@ -50,27 +50,6 @@ export default function Home() {
             </Link>
             
             <Link
-              href="/dashboard"
-              onClick={async (e) => {
-                const { data: { session } } = await supabase.auth.getSession();
-                if (!session) {
-                  e.preventDefault();
-                  alert('Please login first to access dashboard');
-                  window.location.href = '/login';
-                }
-              }}
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-[#1b1d21] bg-gradient-to-r from-[#fefefe] to-[#f8f9fa] border-2 border-[#672afa] rounded-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
-            >
-              <span className="relative z-10 flex items-center">
-                <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z" />
-                </svg>
-                Dashboard
-              </span>
-            </Link>
-            
-            <Link
               href="/login"
               onClick={async (e) => {
                 const { data: { session } } = await supabase.auth.getSession();

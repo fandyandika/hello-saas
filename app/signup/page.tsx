@@ -63,25 +63,58 @@ export default function Signup() {
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      // First, try to sign in to check if user already exists
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password: 'dummy_check_password_12345'
+      });
+
+      // If sign in doesn't return "Invalid login credentials", user might exist
+      if (signInData?.user || (signInError && !signInError.message.includes('Invalid login credentials'))) {
+        setError('Email ini sudah terdaftar! Silakan login untuk masuk ke dashboard.');
+        setLoading(false);
+        return;
+      }
+
+      // If we get "Invalid login credentials", user doesn't exist, proceed with signup
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
       });
 
+      console.log('Signup response:', { data, error }); // Debug logging
+
       if (error) {
+        console.log('Signup error message:', error.message); // Debug logging
         // Handle specific error cases
-        if (error.message.includes('already registered') || error.message.includes('User already registered')) {
-          setError('This email is already registered. Please try logging in instead.');
+        if (error.message.includes('already registered') || 
+            error.message.includes('User already registered') ||
+            error.message.includes('already been registered') ||
+            error.message.includes('email address is already registered') ||
+            error.message.includes('already exists') ||
+            error.message.includes('duplicate') ||
+            error.message.includes('already in use')) {
+          setError('Email ini sudah terdaftar! Silakan login untuk masuk ke dashboard.');
         } else if (error.message.includes('Invalid email')) {
-          setError('Please enter a valid email address');
+          setError('Mohon masukkan alamat email yang valid');
+        } else if (error.message.includes('Password should be at least')) {
+          setError('Password harus minimal 6 karakter');
+        } else if (error.message.includes('Signup is disabled')) {
+          setError('Pendaftaran sedang dinonaktifkan. Silakan hubungi administrator.');
         } else {
-          setError(error.message);
+          setError(`Error: ${error.message}`);
         }
       } else {
-        setMessage('Check your email for the confirmation link!');
+        // Check if user was actually created
+        if (data?.user) {
+          setMessage('Berhasil! Silakan cek email Anda untuk link konfirmasi.');
+        } else {
+          setError('Email ini sudah terdaftar! Silakan login untuk masuk ke dashboard.');
+        }
       }
-    } catch {
-      setError('An unexpected error occurred');
+    } catch (err) {
+      console.error('Signup error:', err);
+      setError('Terjadi kesalahan. Silakan coba lagi.');
     } finally {
       setLoading(false);
     }
@@ -170,13 +203,16 @@ export default function Signup() {
                     <h3 className="text-sm font-medium text-red-800">
                       {error}
                     </h3>
-                    {error.includes('already registered') && (
-                      <div className="mt-2">
+                    {error.includes('sudah terdaftar') && (
+                      <div className="mt-3">
                         <Link
                           href="/login"
-                          className="text-sm text-[#672afa] hover:text-[#5a22df] underline"
+                          className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#672afa] to-[#5a22df] rounded-lg hover:from-[#5a22df] hover:to-[#4a1cc7] transition-all duration-200 shadow-md hover:shadow-lg"
                         >
-                          Click here to login instead
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>
+                          Login Sekarang
                         </Link>
                       </div>
                     )}

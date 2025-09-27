@@ -56,15 +56,18 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         <div className="flex flex-col h-full pt-16">
           {/* Sidebar Header with Logo */}
           <div className="px-6 py-4 border-b border-[#2a2d33]">
-            <div className="flex items-center">
+            <Link 
+              href="/" 
+              className="flex items-center hover:opacity-80 transition-opacity cursor-pointer"
+            >
               <div className="h-8 w-8 bg-[#672afa] rounded-lg flex items-center justify-center mr-3">
                 <span className="text-white font-bold text-sm">H</span>
               </div>
               <div>
-                <h2 className="text-lg font-bold text-white">Hello SaaS</h2>
+                <h2 className="text-lg font-bold text-white hover:text-blue-300 transition-colors">Hello SaaS</h2>
                 <p className="text-xs text-[#a5a2a6]">Dashboard</p>
               </div>
-            </div>
+            </Link>
           </div>
           {/* Mobile close button */}
           <div className="flex items-center justify-between px-6 py-3 lg:hidden border-b border-[#2a2d33]">
