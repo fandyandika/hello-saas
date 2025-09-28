@@ -83,22 +83,42 @@ export default function Signup() {
     }
 
     try {
-      // Check if this email was recently used for signup
+      // Server-side duplicate check via admin API
+      const resp = await fetch('/api/auth/check-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!resp.ok) {
+        const { error: apiError } = await resp.json();
+        setError(apiError || 'Gagal mengecek email. Coba lagi.');
+        setLoading(false);
+        return;
+      }
+
+      const { exists } = (await resp.json()) as { exists: boolean };
+      if (exists) {
+        setError('Email ini sudah terdaftar! Silakan login untuk masuk ke dashboard.');
+        setLoading(false);
+        return;
+      }
+
+      // Extra client-side throttle to avoid spamming
       if (checkRecentSignup(email)) {
         setError('Email ini baru saja digunakan untuk pendaftaran. Silakan cek email Anda atau tunggu sebentar.');
         setLoading(false);
         return;
       }
 
-      // Try to sign up directly
-      const { data, error } = await supabase.auth.signUp({
+      // Proceed with signup
+      const { error } = await supabase.auth.signUp({
         email,
         password,
       });
 
       if (error) {
-        // Handle specific error cases
-        if (error.message.includes('already registered') || 
+        if (error.message.includes('already registered') ||
             error.message.includes('User already registered') ||
             error.message.includes('already been registered') ||
             error.message.includes('email address is already registered') ||
@@ -116,15 +136,8 @@ export default function Signup() {
           setError(`Error: ${error.message}`);
         }
       } else {
-        // Check if user was actually created
-        if (data?.user) {
-          // Add to recent signups to prevent immediate duplicate attempts
-          addRecentSignup(email);
-          setMessage('Berhasil! Silakan cek email Anda untuk link konfirmasi.');
-        } else {
-          // No user returned, likely a duplicate
-          setError('Email ini sudah terdaftar! Silakan login untuk masuk ke dashboard.');
-        }
+        addRecentSignup(email);
+        setMessage('Berhasil! Silakan cek email Anda untuk link konfirmasi.');
       }
     } catch (err) {
       console.error('Signup error:', err);

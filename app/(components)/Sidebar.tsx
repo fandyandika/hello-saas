@@ -1,10 +1,9 @@
-// Dashboard sidebar component with navigation links
+// Modern dashboard sidebar with improved proportions and color scheme
 // RUN: Test by checking sidebar shows navigation links and mobile toggle works
-// Expected: Shows Dashboard/Profile links, collapsible on mobile, active state highlighting
+// Expected: Modern sidebar with better spacing, improved colors, and smooth interactions
 
 'use client';
 
-// No useState needed - props are passed from parent
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -43,38 +42,39 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       {/* Mobile backdrop */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-[#1b1d21] bg-opacity-75 z-40 lg:hidden"
+          className="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 lg:hidden backdrop-blur-sm"
           onClick={onToggle}
         />
       )}
 
       {/* Sidebar */}
       <div className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-[#1b1d21] shadow-xl border-r border-[#2a2d33] transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
+        fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-2xl border-r border-gray-200 transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="flex flex-col h-full pt-16">
+        <div className="flex flex-col h-full">
           {/* Sidebar Header with Logo */}
-          <div className="px-6 py-4 border-b border-[#2a2d33]">
+          <div className="px-6 py-5 border-b border-gray-100">
             <Link 
               href="/" 
-              className="flex items-center hover:opacity-80 transition-opacity cursor-pointer"
+              className="flex items-center hover:opacity-80 transition-all duration-200 group"
             >
-              <div className="h-8 w-8 bg-[#672afa] rounded-lg flex items-center justify-center mr-3">
-                <span className="text-white font-bold text-sm">H</span>
+              <div className="h-10 w-10 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform duration-200 shadow-lg">
+                <span className="text-white font-bold text-lg">H</span>
               </div>
               <div>
-                <h2 className="text-lg font-bold text-white hover:text-blue-300 transition-colors">Hello SaaS</h2>
-                <p className="text-xs text-[#a5a2a6]">Dashboard</p>
+                <h2 className="text-xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">Hello SaaS</h2>
+                <p className="text-sm text-gray-500">Dashboard</p>
               </div>
             </Link>
           </div>
+
           {/* Mobile close button */}
-          <div className="flex items-center justify-between px-6 py-3 lg:hidden border-b border-[#2a2d33]">
-            <h2 className="text-lg font-semibold text-white">Menu</h2>
+          <div className="flex items-center justify-between px-6 py-4 lg:hidden border-b border-gray-100">
+            <h2 className="text-lg font-semibold text-gray-900">Menu</h2>
             <button
               onClick={onToggle}
-              className="p-2 rounded-md text-[#a5a2a6] hover:text-white hover:bg-[#2a2d33] transition-colors duration-200"
+              className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -83,7 +83,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex-1 px-6 py-6 space-y-2">
+          <nav className="flex-1 px-4 py-6 space-y-1">
             {navigation.map((item) => {
               const isActive = pathname === item.href;
               return (
@@ -91,22 +91,24 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                   key={item.name}
                   href={item.href}
                   className={`
-                    group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200
+                    group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200 relative
                     ${isActive
-                      ? 'bg-blue-500/20 text-white border-r-2 border-blue-400'
-                      : 'text-[#a5a2a6] hover:bg-[#2a2d33] hover:text-white'
+                      ? 'bg-gradient-to-r from-indigo-50 to-violet-50 text-indigo-700 shadow-sm border border-indigo-100'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 hover:shadow-sm'
                     }
                   `}
                   onClick={() => {
-                    // Close sidebar on mobile after navigation
                     if (window.innerWidth < 1024) {
                       onToggle();
                     }
                   }}
                 >
+                  {isActive && (
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-indigo-500 to-violet-600 rounded-r-full"></div>
+                  )}
                   <span className={`
-                    mr-3 flex-shrink-0
-                    ${isActive ? 'text-blue-400' : 'text-[#a5a2a6] group-hover:text-white'}
+                    mr-3 flex-shrink-0 transition-colors duration-200
+                    ${isActive ? 'text-indigo-600' : 'text-gray-400 group-hover:text-gray-600'}
                   `}>
                     {item.icon}
                   </span>
@@ -117,9 +119,15 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
           </nav>
 
           {/* Sidebar Footer */}
-          <div className="px-6 py-4 border-t border-[#2a2d33]">
-            <div className="text-xs text-[#a5a2a6]">
-              Hello SaaS Dashboard v1.0
+          <div className="px-6 py-4 border-t border-gray-100 bg-gray-50">
+            <div className="flex items-center">
+              <div className="h-8 w-8 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-white font-bold text-sm">v</span>
+              </div>
+              <div>
+                <div className="text-sm font-medium text-gray-900">v1.0.0</div>
+                <div className="text-xs text-gray-500">Latest version</div>
+              </div>
             </div>
           </div>
         </div>
