@@ -88,12 +88,12 @@ export default function Login() {
 
   if (loggedInRedirect) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#fefefe] to-[#e8e8e8] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-          <h2 className="mt-6 text-center text-3xl font-bold text-[#1b1d21]">
+          <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
             Anda sudah login.
           </h2>
-          <p className="mt-2 text-center text-sm text-[#a5a2a6]">
+          <p className="mt-2 text-center text-sm text-gray-600">
             Mengarahkan ke dashboard...
           </p>
         </div>
@@ -102,18 +102,31 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#fefefe] to-[#e8e8e8] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-bold text-[#1b1d21]">
+        {/* Brand logo */}
+        <div className="flex justify-center">
+          <div className="relative mb-4">
+            <div className="h-12 w-12 bg-gradient-to-br from-indigo-500 via-violet-500 to-purple-600 rounded-xl flex items-center justify-center shadow-xl">
+              <div className="w-5 h-5 relative">
+                <div className="absolute left-0 top-0 w-1.5 h-5 bg-white rounded-full"></div>
+                <div className="absolute right-0 top-0 w-1.5 h-5 bg-white rounded-full"></div>
+                <div className="absolute left-0 top-2 w-5 h-1.5 bg-white rounded-full"></div>
+              </div>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-xl opacity-20 blur-lg" />
+          </div>
+        </div>
+        <h2 className="mt-2 text-center text-3xl font-extrabold tracking-tight bg-gradient-to-r from-gray-900 via-indigo-900 to-purple-900 bg-clip-text text-transparent">
           Sign in to your account
         </h2>
-        <p className="mt-2 text-center text-sm text-[#a5a2a6]">
+        <p className="mt-2 text-center text-sm text-gray-600">
           Welcome back! Please enter your credentials.
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-[#fefefe] py-8 px-4 shadow-lg border border-[#e8e8e8] sm:rounded-lg sm:px-10">
+        <div className="bg-white py-8 px-6 shadow-xl border border-gray-200 rounded-2xl sm:px-10">
           <form className="space-y-6" onSubmit={handleSignIn}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-[#1b1d21]">
@@ -128,7 +141,7 @@ export default function Login() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-[#e8e8e8] rounded-md placeholder-[#a5a2a6] focus:outline-none focus:ring-[#672afa] focus:border-[#672afa] sm:text-sm bg-[#fefefe]"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-200 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white"
                   placeholder="Enter your email"
                 />
               </div>
@@ -147,7 +160,7 @@ export default function Login() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-[#e8e8e8] rounded-md placeholder-[#a5a2a6] focus:outline-none focus:ring-[#672afa] focus:border-[#672afa] sm:text-sm bg-[#fefefe]"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-200 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white"
                   placeholder="Enter your password"
                 />
               </div>
@@ -170,13 +183,13 @@ export default function Login() {
                 <button
                   type="button"
                   onClick={handlePasswordReset}
-                  className="font-medium text-[#672afa] hover:text-[#5a22df]"
+                  className="font-medium text-indigo-700 hover:text-indigo-900"
                 >
                   Lupa password?
                 </button>
                 <Link
                   href="/dashboard"
-                  className="text-[#a5a2a6] hover:text-[#1b1d21]"
+                  className="text-gray-500 hover:text-gray-900"
                 >
                   Dashboard
                 </Link>
@@ -185,7 +198,7 @@ export default function Login() {
 
             {/* Error Message */}
             {error && (
-              <div className="rounded-md bg-red-50 p-4">
+              <div className="rounded-xl bg-red-50 p-4 border border-red-200">
                 <div className="flex">
                   <div className="flex-shrink-0">
                     <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
@@ -203,7 +216,7 @@ export default function Login() {
 
             {/* Reset Message */}
             {resetMessage && (
-              <div className="rounded-md bg-green-50 p-4">
+              <div className="rounded-xl bg-green-50 p-4 border border-green-200">
                 <div className="flex">
                   <div className="flex-shrink-0">
                     <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
@@ -223,7 +236,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-sm font-medium text-white bg-[#672afa] hover:bg-[#5a22df] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#672afa] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                className="w-full flex justify-center py-3 px-4 rounded-xl shadow-lg text-sm font-medium text-white bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
               >
                 {loading ? 'Signing in...' : 'Sign in'}
               </button>
@@ -236,14 +249,14 @@ export default function Login() {
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-[#fefefe] text-[#a5a2a6]">New to our platform?</span>
+                <span className="px-2 bg-white text-gray-500">New to our platform?</span>
               </div>
             </div>
 
             <div className="mt-6">
               <Link
                 href="/signup"
-                className="w-full flex justify-center py-3 px-4 border border-[#e8e8e8] rounded-lg shadow-sm text-sm font-medium text-[#1b1d21] bg-[#fefefe] hover:bg-[#e8e8e8] transition-all duration-200"
+                className="w-full flex justify-center py-3 px-4 border border-gray-200 rounded-xl shadow-sm text-sm font-medium text-gray-900 bg-white hover:bg-gray-50 transition-all duration-200"
               >
                 Create new account
               </Link>
@@ -254,7 +267,7 @@ export default function Login() {
           <div className="mt-6 text-center">
             <Link
               href="/"
-              className="text-sm text-[#672afa] hover:text-[#5a22df] flex items-center justify-center transition-colors duration-200"
+              className="text-sm text-indigo-700 hover:text-indigo-900 flex items-center justify-center transition-colors duration-200"
             >
               ← Back to Home
             </Link>

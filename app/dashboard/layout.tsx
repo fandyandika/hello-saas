@@ -1,6 +1,6 @@
-// Modern dashboard layout with optimized spacing and improved visual hierarchy
-// RUN: Test by visiting /dashboard - should show clean, modern layout with proper spacing
-// Expected: Reduced white space, better proportions, modern color scheme
+// Optimized dashboard layout with single scroll container and responsive behavior
+// RUN: Test by visiting /dashboard - should show proper desktop/mobile layout
+// Expected: Desktop shows brand in sidebar only, mobile shows brand in header, single scroll
 
 'use client';
 
@@ -84,63 +84,68 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Navbar - Fixed at top */}
       <Navbar user={{ email: user.email || 'user@example.com' }} onLogout={handleLogout} />
       
-      <div className="flex">
-        {/* Sidebar - Fixed on left, collapsible on mobile */}
+      {/* Main Layout Container - Flexbox with single scroll */}
+      <div className="flex pt-16">
+        {/* Sidebar - 224px width, sticky positioning */}
         <Sidebar 
           isOpen={sidebarOpen} 
           onToggle={() => setSidebarOpen(!sidebarOpen)}
         />
         
-        {/* Main Content Area - Optimized spacing */}
-        <div className="flex-1 lg:ml-64 pt-16">
-          <main className="min-h-screen">
-            {/* Dashboard Header - Reduced padding */}
-            <div className="bg-white border-b border-gray-200 shadow-sm">
-              <div className="px-4 sm:px-6 lg:px-8 py-6">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
-                      Dashboard
-                    </h1>
-                    <p className="text-lg text-gray-600">
-                      Welcome back! Here&apos;s what&apos;s happening with your account.
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-between sm:justify-end space-x-4">
-                    {/* Quick Stats - More compact */}
-                    <div className="hidden sm:flex items-center space-x-3">
-                      <div className="flex items-center bg-emerald-50 px-3 py-2 rounded-full border border-emerald-200">
-                        <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></div>
-                        <span className="text-emerald-700 font-medium text-sm">Online</span>
-                      </div>
-                      <div className="flex items-center bg-cyan-50 px-3 py-2 rounded-full border border-cyan-200">
-                        <svg className="w-4 h-4 mr-2 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span className="text-cyan-700 font-medium text-sm">Now</span>
-                      </div>
+        {/* Main Content Area - Single scroll container */}
+        <main className="flex-1 min-h-[calc(100vh-64px)] overflow-y-auto">
+          {/* Welcome Header */}
+          <div className="bg-white border-b border-gray-200 shadow-sm">
+            <div className="px-6 sm:px-8 lg:px-12 py-8 lg:py-10">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div className="flex-1 min-w-0">
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 lg:mb-4">
+                    Welcome back!
+                  </h1>
+                  <p className="text-lg sm:text-xl lg:text-2xl text-gray-600">
+                    Here&apos;s what&apos;s happening with your account.
+                  </p>
+                </div>
+                <div className="flex items-center justify-between lg:justify-end space-x-4 lg:space-x-6">
+                  {/* Quick Stats - Mobile optimized */}
+                  <div className="hidden sm:flex items-center space-x-3 lg:space-x-4">
+                    <div className="flex items-center bg-emerald-50 px-3 py-2 lg:px-4 lg:py-3 rounded-full border border-emerald-200">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2 lg:mr-3 animate-pulse"></div>
+                      <span className="text-emerald-700 font-medium text-xs lg:text-sm">Online</span>
                     </div>
-                    
-                    {/* Mobile Menu Button */}
-                    <button
-                      onClick={() => setSidebarOpen(!sidebarOpen)}
-                      className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200"
-                    >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    <div className="flex items-center bg-cyan-50 px-3 py-2 lg:px-4 lg:py-3 rounded-full border border-cyan-200">
+                      <svg className="w-3 h-3 lg:w-4 lg:h-4 mr-2 lg:mr-3 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                    </button>
+                      <span className="text-cyan-700 font-medium text-xs lg:text-sm">Now</span>
+                    </div>
                   </div>
+                  
+                  {/* Mobile Status - Compact version for small screens */}
+                  <div className="sm:hidden flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <span className="text-xs text-gray-600">Online</span>
+                  </div>
+                  
+                  {/* Mobile Menu Button */}
+                  <button
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                    className="md:hidden p-2 sm:p-3 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200"
+                  >
+                    <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
-            
-            {/* Dashboard Content - Optimized spacing */}
-            <div className="px-4 sm:px-6 lg:px-8 py-6">
-              {children}
-            </div>
-          </main>
-        </div>
+          </div>
+          
+          {/* Dashboard Content - Single scroll container */}
+          <div className="px-6 sm:px-8 lg:px-12 py-8 lg:py-10">
+            {children}
+          </div>
+        </main>
       </div>
     </div>
   );

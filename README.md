@@ -1,112 +1,153 @@
-# Hello SaaS Indonesia 🚀
+# 🚀 Hello SaaS - Next.js 15 + Supabase
 
-A clean, modern SaaS starter built with Next.js 14, TypeScript, Tailwind CSS, and Supabase authentication.
+A modern SaaS application built with Next.js 15, TypeScript, Tailwind CSS, and Supabase.
 
-## Features
+## ✨ Features
 
-- ⚡ **Next.js 14** with App Router
-- 🔷 **TypeScript** for type safety
-- 🎨 **Tailwind CSS** for styling
-- 📱 **Responsive design** for all devices
-- 🧭 **Navigation** with shared Navbar component
-- 🔐 **Supabase Authentication** with email/password
-- 🛡️ **Protected routes** with session management
-- 🔄 **Password reset** functionality
+- 🔐 **Authentication** - Email/password with Supabase Auth
+- 🗄️ **Database** - PostgreSQL with Row Level Security
+- 📱 **Responsive** - Mobile-first design
+- 🎨 **Modern UI** - Clean, professional interface
+- 🔒 **Secure** - RLS policies for data isolation
+- ⚡ **Fast** - Optimized with Next.js 15
 
-## Project Structure
+## 🚀 Quick Start
 
-```
-app/
-├── (components)/
-│   └── Navbar.tsx          # Shared navigation component
-├── dashboard/
-│   └── page.tsx            # Protected dashboard page
-├── login/
-│   └── page.tsx            # Login page with Supabase auth
-├── reset-password/
-│   └── page.tsx            # Password reset page
-├── signup/
-│   └── page.tsx            # Signup page with Supabase auth
-├── globals.css             # Global styles and Tailwind
-├── layout.tsx              # Root layout with Navbar
-└── page.tsx                # Landing page with hero section
-lib/
-└── supabase.ts             # Supabase client configuration
-```
-
-## Pages
-
-- **/** - Landing page with hero section and call-to-action buttons
-- **/signup** - User registration with email/password
-- **/login** - User authentication with password reset
-- **/reset-password** - Password reset form (accessed via email link)
-- **/dashboard** - Protected dashboard with user info and logout
-
-## Getting Started
-
-1. Install dependencies:
+### 1. Clone & Install
 ```bash
+git clone <your-repo>
+cd hello-saas
 npm install
 ```
 
-2. Set up Supabase:
-   - Create a new project at [supabase.com](https://supabase.com)
-   - Go to Settings > API to get your project URL and anon key
-   - Go to Authentication > URL Configuration and set:
-     - Site URL: `http://localhost:3000` (for development)
-     - Redirect URLs: `http://localhost:3000/reset-password`
-   - Create a `.env.local` file in the root directory:
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
+### 2. Environment Setup
+Create `.env.local`:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+```
 
-3. Run the development server:
+### 3. Database Setup
+**IMPORTANT**: You must set up the database first!
+
+```bash
+# Run the setup script
+node scripts/setup-database.js
+```
+
+Then follow the instructions to:
+1. Copy the SQL schema
+2. Execute in Supabase Dashboard
+3. Verify the setup
+
+### 4. Run Development Server
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+Visit `http://localhost:3000`
 
-## Testing Password Reset Flow
+## 📁 Project Structure
 
-1. **Go to Login Page** - Visit `/login`
-2. **Click "Lupa password?"** - Enter your email and click the link
-3. **Check Email** - Look for the password reset email in your inbox
-4. **Click Reset Link** - This will redirect to `/reset-password`
-5. **Enter New Password** - Fill in the new password form
-6. **Success** - You'll be redirected to `/login` with updated password
+```
+app/
+├── (components)/          # Shared components
+│   ├── Navbar.tsx        # Dashboard navigation
+│   ├── Sidebar.tsx       # Sidebar navigation
+│   ├── ItemsList.tsx     # Items management
+│   └── PublicNavbar.tsx  # Public pages navbar
+├── dashboard/            # Protected dashboard
+├── items/               # Items management page
+├── login/               # Authentication
+├── signup/              # User registration
+└── reset-password/      # Password reset
 
-## Authentication Features
+lib/
+├── supabase.ts          # Supabase client
+├── supabaseAdmin.ts     # Admin client
+└── items.ts            # Items service
 
-- ✅ **User Registration** - Email/password signup with Supabase
-- ✅ **User Login** - Email/password authentication
-- ✅ **Password Reset** - Complete email-based password recovery flow
-- ✅ **Password Update** - Secure password change via email link
-- ✅ **Protected Routes** - Dashboard requires authentication
-- ✅ **Session Management** - Automatic session checking and redirects
-- ✅ **User Info Display** - Shows logged-in user's email
-- ✅ **Logout Functionality** - Working logout with session cleanup
+types/
+└── database.ts         # TypeScript types
+```
 
-## Tech Stack
+## 🗄️ Database Schema
 
-- **Framework**: Next.js 14 with App Router
+The app uses a single `items` table with:
+
+- **id**: UUID (Primary Key)
+- **user_id**: UUID (Foreign Key to auth.users)
+- **title**: TEXT (Required)
+- **notes**: TEXT (Optional)
+- **created_at**: TIMESTAMPTZ (Auto-generated)
+- **updated_at**: TIMESTAMPTZ (Auto-updated)
+
+### Security Features
+- ✅ Row Level Security (RLS) enabled
+- ✅ User data isolation
+- ✅ Foreign key constraints
+- ✅ Data validation
+- ✅ Performance indexes
+
+## 🔧 Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+```
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Push to GitHub
+2. Connect to Vercel
+3. Add environment variables
+4. Deploy!
+
+### Manual Setup
+1. Run `npm run build`
+2. Deploy the `.next` folder
+3. Set up environment variables
+
+## 🛠️ Troubleshooting
+
+### "Could not find table 'public.items'"
+This means the database hasn't been set up yet. Follow the database setup steps above.
+
+### Authentication Issues
+- Check your Supabase URL and keys
+- Verify email confirmation is set up
+- Check Supabase Auth settings
+
+### Build Errors
+- Run `npm run lint` to check for issues
+- Ensure all environment variables are set
+- Check TypeScript errors
+
+## 📚 Tech Stack
+
+- **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **Authentication**: Supabase Auth
 - **Database**: Supabase (PostgreSQL)
-- **Fonts**: Geist Sans & Geist Mono
-- **Icons**: Heroicons (via SVG)
+- **Authentication**: Supabase Auth
+- **Deployment**: Vercel
 
-## Next Steps
+## 🤝 Contributing
 
-This starter provides a solid foundation for building a SaaS application. Consider adding:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-- Database tables and RLS policies in Supabase
-- API routes for backend functionality
-- State management (Zustand, Redux Toolkit)
-- Form validation (React Hook Form + Zod)
-- Real-time features (Supabase Realtime)
-- Email templates customization
-- User profile management
-- Role-based access control
+## 📄 License
+
+MIT License - see LICENSE file for details
+
+---
+
+**Need help?** Check the troubleshooting section or open an issue!

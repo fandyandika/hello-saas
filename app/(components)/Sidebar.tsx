@@ -1,6 +1,6 @@
-// Modern dashboard sidebar with improved proportions and color scheme
-// RUN: Test by checking sidebar shows navigation links and mobile toggle works
-// Expected: Modern sidebar with better spacing, improved colors, and smooth interactions
+// Professional sidebar with modern logo design and items navigation
+// RUN: Test by checking sidebar shows navigation with items link
+// Expected: Professional sidebar with Hello SaaS Dashboard branding and items navigation
 
 'use client';
 
@@ -27,6 +27,15 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       ),
     },
     {
+      name: 'Items',
+      href: '/items',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      ),
+    },
+    {
       name: 'Profile',
       href: '/dashboard/profile',
       icon: (
@@ -42,35 +51,51 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       {/* Mobile backdrop */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 lg:hidden backdrop-blur-sm"
+          className="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 md:hidden backdrop-blur-sm"
           onClick={onToggle}
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar - 224px width, sticky positioning */}
       <div className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-2xl border-r border-gray-200 transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
+        fixed inset-y-0 left-0 z-50 w-56 bg-white shadow-2xl border-r border-gray-200 transform transition-all duration-300 ease-in-out md:translate-x-0 md:static md:inset-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:sticky md:top-16 md:h-[calc(100vh-64px)]
       `}>
         <div className="flex flex-col h-full">
-          {/* Sidebar Header with Logo */}
-          <div className="px-6 py-5 border-b border-gray-100">
+          {/* Sidebar Header with Professional Logo */}
+          <div className="px-6 py-6 border-b border-gray-100">
             <Link 
               href="/" 
               className="flex items-center hover:opacity-80 transition-all duration-200 group"
             >
-              <div className="h-10 w-10 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center mr-3 group-hover:scale-105 transition-transform duration-200 shadow-lg">
-                <span className="text-white font-bold text-lg">H</span>
+              {/* Modern Professional Logo */}
+              <div className="relative">
+                <div className="h-11 w-11 bg-gradient-to-br from-indigo-500 via-violet-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-105 transition-all duration-300 shadow-lg group-hover:shadow-xl">
+                  <div className="relative">
+                    {/* Modern H Design */}
+                    <div className="w-5 h-5 relative">
+                      {/* Left vertical bar */}
+                      <div className="absolute left-0 top-0 w-1.5 h-5 bg-white rounded-full"></div>
+                      {/* Right vertical bar */}
+                      <div className="absolute right-0 top-0 w-1.5 h-5 bg-white rounded-full"></div>
+                      {/* Horizontal bar */}
+                      <div className="absolute left-0 top-2 w-5 h-1.5 bg-white rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+                {/* Subtle glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-sm"></div>
               </div>
-              <div>
-                <h2 className="text-xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">Hello SaaS</h2>
+              <div className="min-w-0 ml-4">
+                <h2 className="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors duration-200">Hello SaaS</h2>
                 <p className="text-sm text-gray-500">Dashboard</p>
               </div>
             </Link>
           </div>
 
           {/* Mobile close button */}
-          <div className="flex items-center justify-between px-6 py-4 lg:hidden border-b border-gray-100">
+          <div className="flex items-center justify-between px-6 py-4 md:hidden border-b border-gray-100">
             <h2 className="text-lg font-semibold text-gray-900">Menu</h2>
             <button
               onClick={onToggle}
@@ -83,7 +108,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex-1 px-4 py-6 space-y-1">
+          <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
             {navigation.map((item) => {
               const isActive = pathname === item.href;
               return (
@@ -91,14 +116,14 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                   key={item.name}
                   href={item.href}
                   className={`
-                    group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200 relative
+                    group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 relative
                     ${isActive
                       ? 'bg-gradient-to-r from-indigo-50 to-violet-50 text-indigo-700 shadow-sm border border-indigo-100'
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 hover:shadow-sm'
                     }
                   `}
                   onClick={() => {
-                    if (window.innerWidth < 1024) {
+                    if (window.innerWidth < 768) {
                       onToggle();
                     }
                   }}
@@ -112,7 +137,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                   `}>
                     {item.icon}
                   </span>
-                  {item.name}
+                  <span className="truncate">{item.name}</span>
                 </Link>
               );
             })}
@@ -124,7 +149,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
               <div className="h-8 w-8 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-lg flex items-center justify-center mr-3">
                 <span className="text-white font-bold text-sm">v</span>
               </div>
-              <div>
+              <div className="min-w-0">
                 <div className="text-sm font-medium text-gray-900">v1.0.0</div>
                 <div className="text-xs text-gray-500">Latest version</div>
               </div>
