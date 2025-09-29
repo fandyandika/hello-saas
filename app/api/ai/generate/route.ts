@@ -62,11 +62,6 @@ export async function POST(request: NextRequest) {
       creative: 'Use creative, engaging tone.',
       funny: 'Use witty, humorous tone that is light, tasteful, and concise.'
     };
-    const lengthMap: Record<string, string> = {
-      short: 'Keep the answer concise, aim for 120-180 words maximum.',
-      normal: 'Keep the answer moderately detailed, aim for 250-400 words.',
-      long: 'Provide a comprehensive answer, but keep it within 600-800 words.'
-    };
     const antiFiller = 'Do NOT include generic intros/outros (e.g., "Tentu", "berikut", "diharapkan", "Semoga membantu"). Avoid hedging. Start directly with the substance. No apologies. No meta commentary. No closing remarks.';
 
     const toneStyleGuides: Record<string, string> = {
@@ -98,7 +93,18 @@ export async function POST(request: NextRequest) {
       }
     };
 
-    const requestBody: any = {
+    type RequestBody = {
+      model: string;
+      messages: Array<{ role: 'system' | 'user'; content: string }>;
+      n: number;
+      max_completion_tokens?: number;
+      response_format?: { type: 'text' };
+      max_tokens?: number;
+      temperature?: number;
+      top_p?: number;
+    };
+
+    const requestBody: RequestBody = {
       model,
       messages: [
         { role: 'system', content: systemPrompt },
@@ -186,7 +192,19 @@ export async function POST(request: NextRequest) {
     
     let aiResponse = 'No response generated';
     
-    const buildResponse = (result: string, meta: any) => {
+    interface MetadataUsage {
+      prompt_tokens?: number;
+      completion_tokens?: number;
+      total_tokens?: number;
+    }
+    interface Metadata {
+      modelUsed: string;
+      fallbackUsed: boolean;
+      finishReason?: string;
+      usage?: MetadataUsage;
+    }
+
+    const buildResponse = (result: string, meta: Metadata) => {
       return NextResponse.json({
         result,
         success: true,
@@ -207,7 +225,7 @@ export async function POST(request: NextRequest) {
         // Try fallback with gpt-4o-mini
         const fallbackModel = 'gpt-4o-mini';
         const fallbackSystem = `${systemPrompt} Keep the answer very concise. Aim for 120-180 words.`;
-        const fallbackBody: any = {
+        const fallbackBody: RequestBody = {
           model: fallbackModel,
           messages: [
             { role: 'system', content: fallbackSystem },
