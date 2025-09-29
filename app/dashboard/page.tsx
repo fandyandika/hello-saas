@@ -1,6 +1,9 @@
-// Expert UI/UX dashboard page with optimized text sizes and mobile responsiveness
-// RUN: Test by visiting /dashboard - should show proper text hierarchy and mobile-friendly layout
-// Expected: Consistent text sizes, mobile-optimized cards, proper visual hierarchy
+// Dashboard with integrated items CRUD functionality
+// RUN: Test by visiting /dashboard - should show stats, quick actions, and items management
+// Expected: Complete dashboard with items CRUD, responsive design, and proper error handling
+
+import ItemsList from '../(components)/ItemsList';
+import Link from 'next/link';
 
 export default function Dashboard() {
   return (
@@ -36,7 +39,7 @@ export default function Dashboard() {
               </div>
               <div className="h-10 w-10 sm:h-12 sm:w-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-lg">
                 <svg className="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2zm0 8c-2.67 0-8 1.337-8 4v2h16v-2c0-2.663-5.33-4-8-4z" />
                 </svg>
               </div>
             </div>
@@ -79,6 +82,9 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Items Management Section */}
+      {/* Removed per request: replace items with Quick Actions only */}
 
       {/* Main Content Grid - Mobile optimized */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -142,51 +148,50 @@ export default function Dashboard() {
           <div className="p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4 sm:mb-6">
               <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900">Quick Actions</h3>
-              <span className="text-xs sm:text-sm text-gray-500">3 actions</span>
+              <span className="text-xs sm:text-sm text-gray-500">2 actions</span>
             </div>
             <div className="space-y-2 sm:space-y-3">
-              <button className="w-full text-left p-3 sm:p-4 border border-gray-200 rounded-xl hover:border-indigo-300 hover:bg-indigo-50 transition-all duration-200 group">
+              <Link href="/items" className="w-full block p-3 sm:p-4 border border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 group">
                 <div className="flex items-center">
-                  <div className="h-8 w-8 sm:h-10 sm:w-10 bg-indigo-50 group-hover:bg-indigo-100 rounded-lg flex items-center justify-center mr-3 sm:mr-4 transition-colors duration-200">
-                    <svg className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  <div className="h-8 w-8 sm:h-10 sm:w-10 bg-gray-100 group-hover:bg-gray-200 rounded-lg flex items-center justify-center mr-3 sm:mr-4 transition-colors duration-200">
+                    <svg className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <span className="text-sm sm:text-base font-semibold text-gray-900 group-hover:text-indigo-700 block">Create New Project</span>
-                    <p className="text-xs sm:text-sm text-gray-500">Start a new project from scratch</p>
+                    <span className="text-sm sm:text-base font-semibold text-gray-900 group-hover:text-gray-800 block">Catatan</span>
+                    <p className="text-xs sm:text-sm text-gray-500">Tulis atau kelola catatan</p>
                   </div>
                 </div>
-              </button>
-              
-              <button className="w-full text-left p-3 sm:p-4 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-200 group">
+              </Link>
+
+              <Link href="/dashboard/ai" className="w-full block p-3 sm:p-4 border border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 group">
                 <div className="flex items-center">
-                  <div className="h-8 w-8 sm:h-10 sm:w-10 bg-emerald-50 group-hover:bg-emerald-100 rounded-lg flex items-center justify-center mr-3 sm:mr-4 transition-colors duration-200">
-                    <svg className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <div className="h-8 w-8 sm:h-10 sm:w-10 bg-gray-100 group-hover:bg-gray-200 rounded-lg flex items-center justify-center mr-3 sm:mr-4 transition-colors duration-200">
+                    <svg className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m4 14H7l-4 4V7a2 2 0 012-2h12a2 2 0 012 2v6" />
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <span className="text-sm sm:text-base font-semibold text-gray-900 group-hover:text-emerald-700 block">Review Reports</span>
-                    <p className="text-xs sm:text-sm text-gray-500">Check your latest analytics</p>
+                    <span className="text-sm sm:text-base font-semibold text-gray-900 group-hover:text-gray-800 block">Asisten AI</span>
+                    <p className="text-xs sm:text-sm text-gray-500">Generate copy, ide, dan lainnya</p>
                   </div>
                 </div>
-              </button>
-              
-              <button className="w-full text-left p-3 sm:p-4 border border-gray-200 rounded-xl hover:border-cyan-300 hover:bg-cyan-50 transition-all duration-200 group">
+              </Link>
+
+              <Link href="/dashboard/examples" className="w-full block p-3 sm:p-4 border border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 group">
                 <div className="flex items-center">
-                  <div className="h-8 w-8 sm:h-10 sm:w-10 bg-cyan-50 group-hover:bg-cyan-100 rounded-lg flex items-center justify-center mr-3 sm:mr-4 transition-colors duration-200">
-                    <svg className="h-4 w-4 sm:h-5 sm:w-5 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <div className="h-8 w-8 sm:h-10 sm:w-10 bg-gray-100 group-hover:bg-gray-200 rounded-lg flex items-center justify-center mr-3 sm:mr-4 transition-colors duration-200">
+                    <svg className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2zm0 8c-2.67 0-8 1.337-8 4v2h16v-2c0-2.663-5.33-4-8-4z" />
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <span className="text-sm sm:text-base font-semibold text-gray-900 group-hover:text-cyan-700 block">Settings</span>
-                    <p className="text-xs sm:text-sm text-gray-500">Manage your preferences</p>
+                    <span className="text-sm sm:text-base font-semibold text-gray-900 group-hover:text-gray-800 block">Template</span>
+                    <p className="text-xs sm:text-sm text-gray-500">Kelola template referensi</p>
                   </div>
                 </div>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

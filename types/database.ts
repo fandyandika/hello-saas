@@ -30,6 +30,29 @@ export interface Database {
           updated_at?: string;
         };
       };
+      examples: {
+        Row: {
+          id: string;
+          user_id: string;
+          content: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          content: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          content?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
     };
     Views: {
       [_ in never]: never;
@@ -47,3 +70,7 @@ export interface Database {
 export type Item = Database['public']['Tables']['items']['Row'];
 export type ItemInsert = Database['public']['Tables']['items']['Insert'];
 export type ItemUpdate = Database['public']['Tables']['items']['Update'];
+
+export type Example = Database['public']['Tables']['examples']['Row'];
+export type ExampleInsert = Database['public']['Tables']['examples']['Insert'];
+export type ExampleUpdate = Database['public']['Tables']['examples']['Update'];
