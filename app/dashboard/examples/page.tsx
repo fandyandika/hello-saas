@@ -267,7 +267,7 @@ export default function DashboardExamplesPage() {
               <textarea
                 value={form.content}
                 onChange={(e) => setForm(s => ({ ...s, content: e.target.value }))}
-                className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 text-sm"
+                className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 text-sm text-gray-900"
                 placeholder="Tulis contoh gaya/struktur singkat (maks 5000 karakter)"
                 rows={6}
                 required

@@ -239,7 +239,7 @@ export default function DashboardAIPage() {
               <textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className="w-full px-3 sm:px-4 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 resize-none text-sm"
+                className="w-full px-3 sm:px-4 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 resize-none text-sm text-gray-900"
                 placeholder="Tulis kebutuhanmu di sini..."
                 rows={6}
                 required
@@ -256,7 +256,7 @@ export default function DashboardAIPage() {
                 <select 
                   value={selectedLength} 
                   onChange={(e) => setSelectedLength(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                 >
                   <option value="short">Pendek</option>
                   <option value="normal">Sedang</option>
@@ -295,7 +295,7 @@ export default function DashboardAIPage() {
                     <select 
                       value={selectedModel} 
                       onChange={(e) => setSelectedModel(e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                     >
                       {modelOptions.map(option => (
                         <option key={option.value} value={option.value}>
@@ -309,7 +309,7 @@ export default function DashboardAIPage() {
                     <select 
                       value={selectedTone} 
                       onChange={(e) => setSelectedTone(e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                     >
                       {toneOptions.map(option => (
                         <option key={option.value} value={option.value}>
