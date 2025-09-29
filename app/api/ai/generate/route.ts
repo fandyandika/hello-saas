@@ -143,6 +143,29 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify(requestBody),
     });
 
+    let aiResponse = 'No response generated';
+
+    interface MetadataUsage {
+      prompt_tokens?: number;
+      completion_tokens?: number;
+      total_tokens?: number;
+    }
+    interface Metadata {
+      modelUsed: string;
+      fallbackUsed: boolean;
+      finishReason?: string;
+      usage?: MetadataUsage;
+    }
+
+    const buildResponse = (result: string, meta: Metadata) => {
+      return NextResponse.json({
+        result,
+        success: true,
+        metadata: meta
+      });
+    };
+
+    // handle non-OK response with potential fallback
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       console.error('OpenAI API error:', {
@@ -152,10 +175,53 @@ export async function POST(request: NextRequest) {
         model: model
       });
       
-      // Check if it's a model availability issue
-      if (errorData.error?.code === 'model_not_found' || errorData.error?.message?.includes('model')) {
+      // If model not found or not accessible, try automatic fallback to gpt-4o-mini
+      const modelErrorMsg: string | undefined = errorData?.error?.message;
+      const isModelNotFound = errorData?.error?.code === 'model_not_found' || (typeof modelErrorMsg === 'string' && modelErrorMsg.toLowerCase().includes('model')) || response.status === 404;
+      if (isModelNotFound) {
+        try {
+          const fallbackModel = 'gpt-4o-mini';
+          const fbTemp = (() => {
+            let base = 0.5;
+            if (tone === 'normal' || tone === 'formal') base = 0.4;
+            if (tone === 'friendly' || tone === 'casual') base = 0.6;
+            if (tone === 'funny' || tone === 'creative' || tone === 'storytelling') base = 0.75;
+            base = Math.min(base + 0.1, 0.85); // gpt-4 family slight bump
+            if (usedExamples) base = Math.min(base + 0.1, 0.7);
+            return base;
+          })();
+          const fbBody: RequestBody = {
+            model: fallbackModel,
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: prompt }
+            ],
+            n: 1,
+            max_tokens: maxByLength(false),
+            temperature: fbTemp,
+            top_p: 0.9
+          };
+          const fbResp = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${apiKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(fbBody),
+          });
+          if (fbResp.ok) {
+            const fbData = await fbResp.json();
+            const fbChoice = fbData.choices?.[0];
+            const fbMessage = fbChoice?.message;
+            const fbFinish = fbChoice?.finish_reason;
+            const fbContent = fbMessage?.content || 'No response generated';
+            return buildResponse(fbContent, { modelUsed: fallbackModel, fallbackUsed: true, finishReason: fbFinish, usage: fbData.usage });
+          }
+        } catch (fbErr) {
+          console.error('Fallback model call failed:', fbErr);
+        }
         return NextResponse.json(
-          { error: `Model ${model} tidak tersedia. Silakan periksa akses akun OpenAI Anda atau coba model lain.` },
+          { error: `Model ${model} tidak tersedia dan fallback gagal. Silakan pilih model lain.` },
           { status: 400 }
         );
       }
@@ -163,7 +229,7 @@ export async function POST(request: NextRequest) {
       // Check if it's an API key issue
       if (errorData.error?.code === 'invalid_api_key' || errorData.error?.message?.includes('api key')) {
         return NextResponse.json(
-          { error: 'API key OpenAI tidak valid. Silakan periksa konfigurasi OPENAI_API_KEY di file .env.local.' },
+          { error: 'API key OpenAI tidak valid. Silakan periksa konfigurasi OPENAI_API_KEY di file .env.local / Vercel Project Settings.' },
           { status: 400 }
         );
       }
@@ -190,28 +256,6 @@ export async function POST(request: NextRequest) {
     console.log('Finish reason:', finishReason);
     console.log('Message object:', message);
     
-    let aiResponse = 'No response generated';
-    
-    interface MetadataUsage {
-      prompt_tokens?: number;
-      completion_tokens?: number;
-      total_tokens?: number;
-    }
-    interface Metadata {
-      modelUsed: string;
-      fallbackUsed: boolean;
-      finishReason?: string;
-      usage?: MetadataUsage;
-    }
-
-    const buildResponse = (result: string, meta: Metadata) => {
-      return NextResponse.json({
-        result,
-        success: true,
-        metadata: meta
-      });
-    };
-
     if (message?.content) {
       aiResponse = message.content;
       if (finishReason === 'length') {
