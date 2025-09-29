@@ -2,7 +2,6 @@
 // RUN: Test by visiting /dashboard - should show stats, quick actions, and items management
 // Expected: Complete dashboard with items CRUD, responsive design, and proper error handling
 
-import ItemsList from '../(components)/ItemsList';
 import Link from 'next/link';
 
 export default function Dashboard() {

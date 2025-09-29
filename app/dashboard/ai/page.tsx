@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import Alert from '@/app/(components)/Alert';
 import { ExamplesService } from '@/lib/examples';
 import type { Example } from '@/types/database';
@@ -22,14 +20,12 @@ interface ResponseMeta {
 }
 
 export default function DashboardAIPage() {
-  const router = useRouter();
   const [prompt, setPrompt] = useState<string>('');
   const [output, setOutput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [alert, setAlert] = useState<AlertState | null>(null);
   const [examples, setExamples] = useState<Example[]>([]);
-  const [examplesLoading, setExamplesLoading] = useState<boolean>(true);
-  const [selectedExamples, setSelectedExamples] = useState<string[]>([]);
+  // simplified selection behavior: fallback to latest when enabled
   const [selectedTone, setSelectedTone] = useState<string>('normal');
   const [useExamples, setUseExamples] = useState<boolean>(false);
   const [selectedLength, setSelectedLength] = useState<string>('normal');
@@ -56,12 +52,6 @@ export default function DashboardAIPage() {
     { value: 'storytelling', label: 'Storytelling' }
   ];
 
-  const lengthOptions = [
-    { value: 'short', label: 'Short (~120-180 kata)' },
-    { value: 'normal', label: 'Normal (~250-400 kata)' },
-    { value: 'long', label: 'Long (~600+ kata)' }
-  ];
-
   const modelOptions = [
     { value: 'gpt-5', label: 'GPT‑5' },
     { value: 'gpt-4', label: 'GPT‑4' },
@@ -73,22 +63,13 @@ export default function DashboardAIPage() {
   // Calculate estimated token usage based on current selection
   const getChosenExamples = () => {
     if (!useExamples) return [];
-    return selectedExamples.length
-      ? examples.filter(ex => selectedExamples.includes(ex.id)).slice(0, 2)
-      : examples.slice(0, 1); // Fallback to 1 example if enabled but none selected
-  };
-  
-  const estimatedTokens = () => {
-    const chosen = getChosenExamples();
-    const promptTokens = prompt.length / 4; // Rough estimate
-    const exampleTokens = chosen.length * 200 / 4; // 200 chars per example
-    return Math.round(promptTokens + exampleTokens + 100); // +100 for system prompt
+    // Fallback to latest 1 example if enabled
+    return examples.slice(0, 1);
   };
 
   // Fetch user's examples on component mount
   useEffect(() => {
     const fetchExamples = async () => {
-      setExamplesLoading(true);
       try {
         const { data, error } = await ExamplesService.getExamples();
         if (error) {
@@ -98,8 +79,6 @@ export default function DashboardAIPage() {
         }
       } catch (error) {
         console.error('Unexpected error fetching examples:', error);
-      } finally {
-        setExamplesLoading(false);
       }
     };
 
